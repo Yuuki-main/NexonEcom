@@ -1,25 +1,16 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-// import banner1 from '../public/nexon_gfx/Homepage_banner.png'
-// import banner2 from '../public/nexon_gfx/Power_now_banner.png'
-import Homepage_banner1 from './../public/nexon_gfx/HOMEPAGE_PROMOTIONAL_BANNER/1.png'
-import Homepage_banner2 from './../public/nexon_gfx/HOMEPAGE_PROMOTIONAL_BANNER/2.png'
-import Homepage_banner3 from './../public/nexon_gfx/HOMEPAGE_PROMOTIONAL_BANNER/3.png'
-import Homepage_banner4 from './../public/nexon_gfx/HOMEPAGE_PROMOTIONAL_BANNER/4.png'
-import Homepage_banner5 from './../public/nexon_gfx/HOMEPAGE_PROMOTIONAL_BANNER/5.png'
-
 import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { store } from '@/store/store'
 
-const slides = [
-  { src: Homepage_banner1, alt: 'Banner 1' },
-  { src: Homepage_banner2, alt: 'Banner 2' },
-  { src: Homepage_banner3, alt: 'Banner 3' },
-  { src: Homepage_banner4, alt: 'Banner 4' },
-  { src: Homepage_banner5, alt: 'Banner 5' },
-]
+const SLIDE_COUNT = 5
+
+const slides = Array.from({ length: SLIDE_COUNT }, (_, i) => ({
+  src1024: `/home_page/Nexon_1024x520/${i + 1}.png`,
+  src1440: `/home_page/Nexon_1440x520/${i + 1}.png`,
+  alt: `Banner ${i + 1}`,
+}))
 
 export default function HeroBanner() {
   const [current, setCurrent] = useState(0)
@@ -46,14 +37,20 @@ export default function HeroBanner() {
             i === current ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <Image
-            src={slide.src}
-            alt={slide.alt}
-            fill
-            className="object-cover"
-            priority={i === 0}
-            sizes="100vw"
-          />
+          <picture className="absolute inset-0">
+            <source
+              srcSet={slide.src1440}
+              media="(min-width: 1025px)"
+            />
+            <Image
+              src={slide.src1024}
+              alt={slide.alt}
+              fill
+              className="object-cover"
+              priority={i === 0}
+              sizes="100vw"
+            />
+          </picture>
         </div>
       ))}
 

@@ -62,6 +62,18 @@ const CATEGORY_BRANDS = {
   ],
 }
 
+// Brands to hide from the "Featured Brands" flat grid (still shown under
+// CATEGORY_BRANDS in the grouped layout — this only affects the flat grid).
+const FEATURED_EXCLUDE = new Set(['solaredge', 'kstar', 'greenbox'])
+
+// Brands to show in the "Featured Brands" flat grid that don't have a Brand
+// record in the database (so no /brands/[slug] page — rendered without a link).
+const FEATURED_EXTRA_BRANDS = [
+  { name: 'Aquatech', logoUrl: '/brands/aquatech.png' },
+  { name: 'Tesla', logoUrl: '/brands/tesla_logo.png' },
+  { name: 'BYD', logoUrl: '/brands/byd_logo.png' },
+]
+
 function SectionHeader({ category }) {
   return (
     <div className="relative flex items-center my-10">
@@ -180,43 +192,55 @@ export default function BrandPartners({ showGrouped = false }) {
         </motion.div>
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 sm:gap-6">
-          {brands.map((brand, i) => {
+          {[
+            ...brands.filter((b) => !FEATURED_EXCLUDE.has(normalizeName(b.name))),
+            ...FEATURED_EXTRA_BRANDS,
+          ].map((brand, i) => {
             const logoUrl =
               LOGO_OVERRIDES[normalizeName(brand.name)] ||
               fileLookup[normalizeName(brand.name)] ||
               brand.logoUrl ||
               null
+
+            const inner = (
+              <>
+                <div className="aspect-[3/2] rounded-xl flex items-center justify-center p-4 hover:border-blue-400 hover:shadow-sm transition-all duration-300">
+                  {logoUrl ? (
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={logoUrl}
+                        alt={brand.name}
+                        fill
+                        className="object-contain transition-all duration-300"
+                        sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, 16vw"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-gray-300 text-xs">
+                      {brand.name}
+                    </span>
+                  )}
+                </div>
+                <p className="text-xs text-center text-gray-400 mt-2 group-hover:text-gray-600 transition-colors">
+                  {brand.name}
+                </p>
+              </>
+            )
+
             return (
               <motion.div
-                key={brand._id || brand.slug}
+                key={brand._id || brand.slug || brand.name}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 className="group"
               >
-                <Link href={`/brands/${brand.slug}`}>
-                  <div className="aspect-[3/2] rounded-xl flex items-center justify-center p-4 hover:border-blue-400 hover:shadow-sm transition-all duration-300">
-                    {logoUrl ? (
-                      <div className="relative w-full h-full">
-                        <Image
-                          src={logoUrl}
-                          alt={brand.name}
-                          fill
-                          className="object-contain transition-all duration-300"
-                          sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, (max-width: 1024px) 20vw, 16vw"
-                        />
-                      </div>
-                    ) : (
-                      <span className="text-gray-300 text-xs">
-                        {brand.name}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-center text-gray-400 mt-2 group-hover:text-gray-600 transition-colors">
-                    {brand.name}
-                  </p>
-                </Link>
+                {brand.slug ? (
+                  <Link href={`/brands/${brand.slug}`}>{inner}</Link>
+                ) : (
+                  inner
+                )}
               </motion.div>
             )
           })}

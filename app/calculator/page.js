@@ -380,7 +380,7 @@ export default function CalculatorPage() {
                     <BatteryFull
                       size={22}
                       strokeWidth={2}
-                      className="text-[#0c6fdc]"
+                      className="text-[#00a7a7]"
                     />
                     Battery Details
                   </h1>
@@ -518,7 +518,7 @@ export default function CalculatorPage() {
               </div>
 
               {/* Right: Results */}
-              <div className="relative overflow-hidden bg-[#0e5288] px-6 py-8 text-white sm:px-10 sm:py-10 lg:min-h-[720px] lg:px-12 lg:py-12">
+              <div className="relative overflow-hidden bg-[#07151d] px-6 py-8 text-white sm:px-10 sm:py-10 lg:min-h-[720px] lg:px-12 lg:py-12">
                 <Calculator
                   size={300}
                   strokeWidth={1.5}
@@ -641,6 +641,8 @@ function CustomSelect({ value, options, onChange, placeholder }) {
   const ref = useRef(null)
 
   const selected = options.find((o) => o.value === value)
+
+  console.log('selected', { selected, options })
 
   useEffect(() => {
     function handleClick(e) {

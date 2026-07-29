@@ -53,6 +53,8 @@ function ProductsContent() {
     inverters: '/nexon_gfx/icons/cat_inverters.png',
     'battery-storage': '/nexon_gfx/icons/cat_battery_storage.png',
     'mounting-systems': '/nexon_gfx/icons/cat_mounting_system.png',
+    aircon: '/nexon_gfx/icons/cat_aircon.png',
+    heatpump: '/nexon_gfx/icons/cat_heatpump.png',
   }
   const [pagination, setPagination] = useState({
     page: 1,

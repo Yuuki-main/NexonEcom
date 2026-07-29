@@ -139,11 +139,11 @@ export default function TrackOrderPage() {
         {/* Logo */}
         <div className="flex justify-center mb-8 mt-[10vh]">
           <Image
-            src="/nexon_logo.jpeg"
+            src="/nexon_co_logo.jpeg"
             alt="Nexon"
             width={140}
             height={40}
-            className="h-10 w-auto"
+            className="h-20 w-auto"
           />
         </div>
 

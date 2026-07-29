@@ -360,6 +360,22 @@ async function seedCategories() {
         'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800',
       displayOrder: 4,
     },
+    {
+      name: 'Air Conditioning',
+      slug: 'aircon',
+      description: 'Energy-efficient air conditioning systems',
+      imageUrl:
+        'https://images.unsplash.com/photo-1631545806609-52bb3a9e99e5?q=80&w=800',
+      displayOrder: 5,
+    },
+    {
+      name: 'Heat Pumps',
+      slug: 'heatpump',
+      description: 'High-performance heat pump systems for heating and cooling',
+      imageUrl:
+        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800',
+      displayOrder: 6,
+    },
   ]
 
   const created = {}
