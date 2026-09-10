@@ -2,12 +2,21 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronRight, Headphones, ClipboardPlus } from 'lucide-react'
 import { newsArticles } from '@/lib/newsData'
 
 export default function NewsEvents() {
   const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActive((prev) => (prev + 1) % newsArticles.length)
+    }, 2000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   const current = newsArticles[active]
 
   return (
@@ -72,7 +81,10 @@ export default function NewsEvents() {
               Do you have questions about your NexonEcom product? NexonEcom
               Customer Service is here to help!
             </p>
-            <Link href="/contact" className="mt-4 border border-[#bbb] rounded-full px-6 py-2.5 text-[14px] font-medium text-[#111] hover:bg-gray-100 transition cursor-pointer">
+            <Link
+              href="/contact"
+              className="mt-4 border border-[#bbb] rounded-full px-6 py-2.5 text-[14px] font-medium text-[#111] hover:bg-gray-100 transition cursor-pointer"
+            >
               Get Help
             </Link>
           </div>
@@ -86,7 +98,10 @@ export default function NewsEvents() {
             <p className="mt-1.5 text-[13px] text-[#666]  max-w-[285px]">
               Get the most out of your product by taking a minute to register.
             </p>
-            <Link href="/contact" className="mt-4 border border-[#bbb] rounded-full px-6 py-2.5 text-[14px] font-medium text-[#111] hover:bg-gray-100 transition cursor-pointer">
+            <Link
+              href="/contact"
+              className="mt-4 border border-[#bbb] rounded-full px-6 py-2.5 text-[14px] font-medium text-[#111] hover:bg-gray-100 transition cursor-pointer"
+            >
               Register Your Product
             </Link>
           </div>

@@ -72,17 +72,11 @@ function TrackingResult({ order }) {
         </div>
       </div>
 
-      {order.shippingAddress && (
+      {order.destination && (
         <div className="mt-6 pt-6 border-t border-[#eee]">
-          <span className="text-[#888] text-sm">Shipping Address</span>
+          <span className="text-[#888] text-sm">Destination</span>
           <p className="text-[#333] text-sm mt-1 leading-relaxed">
-            {[
-              order.shippingAddress.line1,
-              order.shippingAddress.line2,
-              order.shippingAddress.city,
-              order.shippingAddress.state,
-              order.shippingAddress.postcode,
-            ]
+            {[order.destination.city, order.destination.state]
               .filter(Boolean)
               .join(', ')}
           </p>
@@ -93,17 +87,19 @@ function TrackingResult({ order }) {
 }
 
 export default function TrackOrderPage() {
-  const [slip, setSlip] = useState('')
+  const [orderNumber, setOrderNumber] = useState('')
+  const [email, setEmail] = useState('')
   const [order, setOrder] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
   async function handleSubmit(e) {
     e.preventDefault()
-    const trimmed = slip.trim()
+    const trimmedOrderNumber = orderNumber.trim()
+    const trimmedEmail = email.trim()
 
-    if (!trimmed) {
-      setError('Please enter a packing slip number')
+    if (!trimmedOrderNumber || !trimmedEmail) {
+      setError('Please enter your order number and email')
       setOrder(null)
       return
     }
@@ -113,9 +109,11 @@ export default function TrackOrderPage() {
     setLoading(true)
 
     try {
-      const res = await fetch(
-        `/api/track-order?slip=${encodeURIComponent(trimmed)}`,
-      )
+      const params = new URLSearchParams({
+        orderNumber: trimmedOrderNumber,
+        email: trimmedEmail,
+      })
+      const res = await fetch(`/api/track-order?${params.toString()}`)
       const data = await res.json()
 
       if (!res.ok) {
@@ -152,31 +150,49 @@ export default function TrackOrderPage() {
           Track an Order
         </h1>
         <p className="text-center text-[#777] text-sm mb-8 max-w-md mx-auto leading-relaxed">
-          Order tracking is available for orders from: QLD, NSW, VIC, WA, SA,
-          TAS
+          Enter your order number and the email address used to place the order.
         </p>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
-              htmlFor="slip"
+              htmlFor="orderNumber"
               className="block text-sm font-medium text-[#555] mb-1.5"
             >
-              Packing Slip Number
+              Order Number
             </label>
             <input
-              id="slip"
+              id="orderNumber"
               type="text"
-              placeholder="OIF"
-              value={slip}
+              placeholder="e.g. ORD-000001"
+              value={orderNumber}
               onChange={(e) => {
-                setSlip(e.target.value)
+                setOrderNumber(e.target.value)
                 if (error) setError('')
               }}
               className="w-full rounded-lg border border-[#d1d5db] px-4 py-3 text-sm text-[#333] placeholder-[#bbb] outline-none transition focus:border-[#00a7a7] focus:ring-1 focus:ring-[#00a7a7]"
             />
-            <p className="text-xs text-[#aaa] mt-1.5">E.g. 123456</p>
+          </div>
+
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-[#555] mb-1.5"
+            >
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value)
+                if (error) setError('')
+              }}
+              className="w-full rounded-lg border border-[#d1d5db] px-4 py-3 text-sm text-[#333] placeholder-[#bbb] outline-none transition focus:border-[#00a7a7] focus:ring-1 focus:ring-[#00a7a7]"
+            />
           </div>
 
           {error && (
