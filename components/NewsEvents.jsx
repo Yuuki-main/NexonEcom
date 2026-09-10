@@ -30,12 +30,12 @@ export default function NewsEvents() {
         {/* Main card */}
         <div className="flex flex-col md:flex-row gap-0 rounded-xl overflow-hidden border border-[#e8e8e8]">
           {/* Left: image */}
-          <div className="relative w-full md:w-[52%] h-[360px] md:h-auto shrink-0">
+          <div className="relative w-full md:w-[52%] h-[360px] md:h-auto shrink-0 bg-[#0a1220]">
             <Image
               src={current?.image}
               alt={current.title}
               fill
-              className="object-cover"
+              className="object-contain"
             />
           </div>
 
