@@ -94,7 +94,7 @@ export default function BrandProducts({ brandSlug }) {
       q.set('facets', 'true')
 
       try {
-        const res = await fetch(`/api/products?${q}`)
+        const res = await fetch(`/api/store/products?${q}`)
         const data = await res.json()
         if (cancelled) return
 
