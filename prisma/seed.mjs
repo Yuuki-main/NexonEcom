@@ -336,13 +336,22 @@ async function seedCategories() {
       displayOrder: 1,
     },
     {
+      name: 'Water Filteration',
+      slug: 'water-filteration',
+      description:
+        'Whole-house, drinking-water and UV filtration systems for cleaner, safer water',
+      imageUrl:
+        'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=800',
+      displayOrder: 2,
+    },
+    {
       name: 'Inverters',
       slug: 'inverters',
       description:
         'Reliable string, hybrid and micro inverters for every installation',
       imageUrl:
         'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800',
-      displayOrder: 2,
+      displayOrder: 3,
     },
     {
       name: 'Battery Storage',
@@ -350,7 +359,7 @@ async function seedCategories() {
       description: 'Store excess solar energy with intelligent battery systems',
       imageUrl:
         'https://images.unsplash.com/photo-1611365892117-00ac5ef43c90?q=80&w=800',
-      displayOrder: 3,
+      displayOrder: 4,
     },
     {
       name: 'Mounting Systems',
@@ -358,7 +367,7 @@ async function seedCategories() {
       description: 'Durable roof, ground and carport mounting solutions',
       imageUrl:
         'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=800',
-      displayOrder: 4,
+      displayOrder: 5,
     },
     {
       name: 'Air Conditioning',
@@ -366,7 +375,7 @@ async function seedCategories() {
       description: 'Energy-efficient air conditioning systems',
       imageUrl:
         'https://images.unsplash.com/photo-1631545806609-52bb3a9e99e5?q=80&w=800',
-      displayOrder: 5,
+      displayOrder: 6,
     },
     {
       name: 'Heat Pumps',
@@ -374,7 +383,7 @@ async function seedCategories() {
       description: 'High-performance heat pump systems for heating and cooling',
       imageUrl:
         'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=800',
-      displayOrder: 6,
+      displayOrder: 7,
     },
   ]
 
@@ -477,6 +486,11 @@ async function seedBrands() {
     { name: 'Tigo', slug: 'tigo', logoUrl: '/brands/Tigo_logo.png', website: 'https://www.tigoenergy.com' },
     { name: 'ZBENY', slug: 'zbeny', logoUrl: '/brands/Zbeny_logo.png', website: 'https://www.zbeny.com' },
     { name: 'TMAC', slug: 'tmac', logoUrl: '/brands/Tmac_logo.png', website: 'https://www.tmac.com.au' },
+    { name: 'Puretec', slug: 'puretec' },
+    { name: 'HolyH2O', slug: 'holyh2o' },
+    { name: 'AlkaWay', slug: 'alkaway' },
+    { name: 'PSI', slug: 'psi' },
+    { name: 'Filter Systems Australia', slug: 'filter-systems-australia' },
   ]
 
   const created = {}
@@ -497,8 +511,49 @@ async function seedProducts(categories, brands) {
   const inverters = categories['inverters']
   const batteries = categories['battery-storage']
   const mounting = categories['mounting-systems']
+  const waterFilters = categories['water-filteration']
+
+  const waterFilterImage =
+    'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=800'
+  const waterFilter = (name, slug, sku, brandSlug, use, filtration, price, isFeatured = false) => ({
+    name,
+    slug,
+    sku,
+    description: `${name} — ${use.toLowerCase()} system with ${filtration.toLowerCase()}.`,
+    price,
+    stockQuantity: 20,
+    wattage: null,
+    cellType: null,
+    technology: filtration,
+    frameColor: null,
+    manufacturer: brands[brandSlug].name,
+    efficiency: null,
+    warranty: null,
+    categoryId: waterFilters.id,
+    brandId: brands[brandSlug].id,
+    isFeatured,
+    imageUrl: waterFilterImage,
+  })
 
   const products = [
+    // Water filtration
+    waterFilter('Puretec WH2-30', 'puretec-wh2-30', 'PUR-WH2-30', 'puretec', 'Whole-house mains water', 'Sediment + carbon', 450, true),
+    waterFilter('Puretec FilterWall F6', 'puretec-filterwall-f6', 'PUR-FW-F6', 'puretec', 'Premium whole-house filtration', 'Multi-stage filtration', 2400, true),
+    waterFilter('Puretec FilterWall F5', 'puretec-filterwall-f5', 'PUR-FW-F5', 'puretec', 'Whole-home filtration', 'Multi-stage', 2000),
+    waterFilter('Puretec WH2-55 AMC', 'puretec-wh2-55-amc', 'PUR-WH2-55-AMC', 'puretec', 'Residential whole-house', 'Sediment + carbon', 650),
+    waterFilter('Puretec EM2-150', 'puretec-em2-150', 'PUR-EM2-150', 'puretec', 'Large homes / high-flow', 'Multi-stage', 1500),
+    waterFilter('Puretec EM2-100', 'puretec-em2-100', 'PUR-EM2-100', 'puretec', 'Standard family homes', 'Multi-stage', 1200),
+    waterFilter('Puretec EM2-60', 'puretec-em2-60', 'PUR-EM2-60', 'puretec', 'Smaller homes / entry-level', 'Multi-stage', 900),
+    waterFilter('Puretec Hybrid E13 AMC', 'puretec-hybrid-e13-amc', 'PUR-HYB-E13-AMC', 'puretec', 'Homes requiring UV treatment', 'Filtration + UV', 1900),
+    waterFilter('Puretec RO270', 'puretec-ro270', 'PUR-RO270', 'puretec', 'Drinking/cooking water', 'Reverse Osmosis', 800),
+    waterFilter('Puretec Z6', 'puretec-z6', 'PUR-Z6', 'puretec', 'Kitchen drinking water', 'Carbon / drinking-water filtration', 350),
+    waterFilter('HolyH2O Trinity Water Filter', 'holyh2o-trinity-water-filter', 'HH2O-TRINITY', 'holyh2o', 'Benchtop/countertop', 'Ceramic filtration', 300),
+    waterFilter('AlkaWay UltraStream', 'alkaway-ultrastream', 'ALK-ULTRASTREAM', 'alkaway', 'Countertop drinking water', 'Multi-stage filtration', 400),
+    waterFilter('PSI Premium Twin Undersink', 'psi-premium-twin-undersink', 'PSI-TWIN-US', 'psi', 'Kitchen sink', 'Twin cartridge filtration', 250),
+    waterFilter('Filter Systems Australia HPF-UV', 'filter-systems-australia-hpf-uv', 'FSA-HPF-UV', 'filter-systems-australia', 'Whole-house / rainwater', 'Filtration + UV', 1600),
+    waterFilter('Filter Systems Australia Triple Whole House System', 'filter-systems-australia-triple-whole-house', 'FSA-TRIPLE-WH', 'filter-systems-australia', 'Whole-house mains water', 'Triple-stage filtration', 1100),
+
+
     // Solar panels
     {
       name: 'Tindo 475W BLACK, N-TYPE TOPCon, 3.2mm Double ARC Glass, 120HC, 35mm, Staubli MC4 EVO2',
