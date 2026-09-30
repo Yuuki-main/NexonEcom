@@ -486,11 +486,7 @@ async function seedBrands() {
     { name: 'Tigo', slug: 'tigo', logoUrl: '/brands/Tigo_logo.png', website: 'https://www.tigoenergy.com' },
     { name: 'ZBENY', slug: 'zbeny', logoUrl: '/brands/Zbeny_logo.png', website: 'https://www.zbeny.com' },
     { name: 'TMAC', slug: 'tmac', logoUrl: '/brands/Tmac_logo.png', website: 'https://www.tmac.com.au' },
-    { name: 'Puretec', slug: 'puretec' },
-    { name: 'HolyH2O', slug: 'holyh2o' },
-    { name: 'AlkaWay', slug: 'alkaway' },
-    { name: 'PSI', slug: 'psi' },
-    { name: 'Filter Systems Australia', slug: 'filter-systems-australia' },
+    { name: 'Nexon&Co.', slug: 'nexon-co' },
   ]
 
   const created = {}
@@ -515,44 +511,69 @@ async function seedProducts(categories, brands) {
 
   const waterFilterImage =
     'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?q=80&w=800'
-  const waterFilter = (name, slug, sku, brandSlug, use, filtration, price, isFeatured = false) => ({
-    name,
-    slug,
-    sku,
-    description: `${name} — ${use.toLowerCase()} system with ${filtration.toLowerCase()}.`,
-    price,
-    stockQuantity: 20,
-    wattage: null,
-    cellType: null,
-    technology: filtration,
-    frameColor: null,
-    manufacturer: brands[brandSlug].name,
-    efficiency: null,
-    warranty: null,
-    categoryId: waterFilters.id,
-    brandId: brands[brandSlug].id,
-    isFeatured,
-    imageUrl: waterFilterImage,
-  })
 
   const products = [
-    // Water filtration
-    waterFilter('Puretec WH2-30', 'puretec-wh2-30', 'PUR-WH2-30', 'puretec', 'Whole-house mains water', 'Sediment + carbon', 450, true),
-    waterFilter('Puretec FilterWall F6', 'puretec-filterwall-f6', 'PUR-FW-F6', 'puretec', 'Premium whole-house filtration', 'Multi-stage filtration', 2400, true),
-    waterFilter('Puretec FilterWall F5', 'puretec-filterwall-f5', 'PUR-FW-F5', 'puretec', 'Whole-home filtration', 'Multi-stage', 2000),
-    waterFilter('Puretec WH2-55 AMC', 'puretec-wh2-55-amc', 'PUR-WH2-55-AMC', 'puretec', 'Residential whole-house', 'Sediment + carbon', 650),
-    waterFilter('Puretec EM2-150', 'puretec-em2-150', 'PUR-EM2-150', 'puretec', 'Large homes / high-flow', 'Multi-stage', 1500),
-    waterFilter('Puretec EM2-100', 'puretec-em2-100', 'PUR-EM2-100', 'puretec', 'Standard family homes', 'Multi-stage', 1200),
-    waterFilter('Puretec EM2-60', 'puretec-em2-60', 'PUR-EM2-60', 'puretec', 'Smaller homes / entry-level', 'Multi-stage', 900),
-    waterFilter('Puretec Hybrid E13 AMC', 'puretec-hybrid-e13-amc', 'PUR-HYB-E13-AMC', 'puretec', 'Homes requiring UV treatment', 'Filtration + UV', 1900),
-    waterFilter('Puretec RO270', 'puretec-ro270', 'PUR-RO270', 'puretec', 'Drinking/cooking water', 'Reverse Osmosis', 800),
-    waterFilter('Puretec Z6', 'puretec-z6', 'PUR-Z6', 'puretec', 'Kitchen drinking water', 'Carbon / drinking-water filtration', 350),
-    waterFilter('HolyH2O Trinity Water Filter', 'holyh2o-trinity-water-filter', 'HH2O-TRINITY', 'holyh2o', 'Benchtop/countertop', 'Ceramic filtration', 300),
-    waterFilter('AlkaWay UltraStream', 'alkaway-ultrastream', 'ALK-ULTRASTREAM', 'alkaway', 'Countertop drinking water', 'Multi-stage filtration', 400),
-    waterFilter('PSI Premium Twin Undersink', 'psi-premium-twin-undersink', 'PSI-TWIN-US', 'psi', 'Kitchen sink', 'Twin cartridge filtration', 250),
-    waterFilter('Filter Systems Australia HPF-UV', 'filter-systems-australia-hpf-uv', 'FSA-HPF-UV', 'filter-systems-australia', 'Whole-house / rainwater', 'Filtration + UV', 1600),
-    waterFilter('Filter Systems Australia Triple Whole House System', 'filter-systems-australia-triple-whole-house', 'FSA-TRIPLE-WH', 'filter-systems-australia', 'Whole-house mains water', 'Triple-stage filtration', 1100),
-
+    // Water filtration (specs from Nexon&Co. OEM brochure; prices/SKUs are placeholders)
+    {
+      name: 'Nexon&Co. Complete Home Water Filtration System — 3-Stage Whole-Home',
+      slug: 'nexon-complete-home-water-filtration',
+      sku: 'NXC-WHF-3S',
+      description:
+        '3-stage whole-home filtration installed at the main water entry: sediment filtration, carbon + KDF (chlorine, heavy metals, taste and odour) and final refinement (lime-scale and taste). 20 x 4.5 in full-size housings, stainless-steel frame, brass connections, pressure gauges and a protective architectural enclosure. Dimensions 78.5 x 63.5 x 27 cm; water pressure 0.1–0.6 MPa; water temperature 5–35 °C; flow rate 50–60 L/min; total net water 100,000 L; iron max 0.2 ppm; TDS < 1800 ppm. Available in Sky Blue Metallic, Pearl White, Graphite Black, Champagne Titanium and Forest Sage. Professional plumbing installation recommended.',
+      price: 2500,
+      stockQuantity: 20,
+      wattage: null,
+      cellType: null,
+      technology: '3-Stage (Sediment + Carbon/KDF + Refinement)',
+      frameColor: 'Sky Blue Metallic',
+      manufacturer: 'Nexon&Co.',
+      efficiency: null,
+      warranty: null,
+      categoryId: waterFilters.id,
+      brandId: brands['nexon-co'].id,
+      isFeatured: true,
+      imageUrl: waterFilterImage,
+    },
+    {
+      name: 'Nexon&Co. Under-Sink Reverse Osmosis System',
+      slug: 'nexon-under-sink-reverse-osmosis',
+      sku: 'NXC-RO-US',
+      description:
+        'Under-sink reverse osmosis system for drinking and cooking water. Dimensions 36 x 23 x 23 cm; water pressure 0.3–0.7 MPa (40–100 psi); water temperature 5–35 °C; flow rate 0.5 GPM (1.8 L/min); total net water 2,000 L; 3.0 gallon tank.',
+      price: 800,
+      stockQuantity: 20,
+      wattage: null,
+      cellType: null,
+      technology: 'Reverse Osmosis',
+      frameColor: null,
+      manufacturer: 'Nexon&Co.',
+      efficiency: null,
+      warranty: null,
+      categoryId: waterFilters.id,
+      brandId: brands['nexon-co'].id,
+      isFeatured: false,
+      imageUrl: waterFilterImage,
+    },
+    {
+      name: 'Nexon&Co. Whole-Home Replacement Filter Cartridge Set (Stages 1–3)',
+      slug: 'nexon-whole-home-replacement-cartridges',
+      sku: 'NXC-WHF-CART-SET',
+      description:
+        'Replacement 20 x 4.5 in cartridge set for the Nexon&Co. Complete Home Water Filtration System: Stage 1 sediment filter, Stage 2 carbon + KDF heavy metal reduction and taste filter, Stage 3 lime-scale reduction and taste filter. Recommended replacement: Stage 1 every 6 months, Stages 2 and 3 every 12 months (max 18 months).',
+      price: 300,
+      stockQuantity: 50,
+      wattage: null,
+      cellType: null,
+      technology: 'Sediment + Carbon/KDF + Lime-scale',
+      frameColor: null,
+      manufacturer: 'Nexon&Co.',
+      efficiency: null,
+      warranty: null,
+      categoryId: waterFilters.id,
+      brandId: brands['nexon-co'].id,
+      isFeatured: false,
+      imageUrl: waterFilterImage,
+    },
 
     // Solar panels
     {
