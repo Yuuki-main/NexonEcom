@@ -47,6 +47,7 @@ function ProductsContent() {
   const [categories, setCategories] = useState([])
   const [brands, setBrands] = useState([])
   const [products, setProducts] = useState([])
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const categoryIcons = {
     'solar-panels': '/nexon_gfx/icons/cat_solar_pannels.png',
@@ -228,7 +229,7 @@ function ProductsContent() {
     <div className="min-h-screen bg-white">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-6 py-7">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-7">
         {/* ── Breadcrumb ── */}
         <nav className="flex items-center gap-1.5 text-[12px] text-[#888] mb-6">
           <Link href="/" className="hover:text-[#00a7a7]">
@@ -294,10 +295,23 @@ function ProductsContent() {
 
         <hr className="border-[#ebebeb] mb-6" />
 
+        {filterSections.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setFiltersOpen((open) => !open)}
+            aria-expanded={filtersOpen}
+            className="md:hidden mb-4 w-full rounded-lg border border-[#d1d5db] px-4 py-2.5 text-[14px] font-medium text-[#111] cursor-pointer"
+          >
+            {filtersOpen ? 'Hide filters' : 'Show filters'}
+          </button>
+        )}
+
         {/* ── Layout: sidebar + grid ── */}
-        <div className="flex gap-8">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-8">
           {/* ── Sidebar ── */}
-          <aside className="w-60 shrink-0">
+          <aside
+            className={`w-full md:w-60 shrink-0 ${filtersOpen ? '' : 'hidden'} md:block`}
+          >
             {filterSections.map(({ key, label, options }) => (
               <div key={key} className="mb-6">
                 <div className="flex items-center justify-between mb-3">
@@ -350,12 +364,12 @@ function ProductsContent() {
           {/* ── Product grid ── */}
           <div className="flex-1 min-w-0">
             {/* sort bar */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
               <span className="text-[13px] text-[#666]">
                 {loading ? '' : `${pagination.total} products`}
               </span>
               <div className="flex items-center gap-2">
-                <span className="text-[13px] text-[#666]">Sort by</span>
+                <span className="text-[13px] text-[#666] whitespace-nowrap">Sort by</span>
                 <CustomSelect
                   value={sortParam}
                   onChange={(val) => push({ sort: val })}

@@ -449,7 +449,7 @@ function SignupContent() {
             <button
               type="submit"
               disabled={loading}
-              className="w-[420px] bg-[#00a7a7] hover:bg-[#1d4ed8] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-[16px] py-3.5 rounded transition cursor-pointer"
+              className="w-full max-w-[420px] bg-[#00a7a7] hover:bg-[#1d4ed8] disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-[16px] py-3.5 rounded transition cursor-pointer"
             >
               {loading ? 'Creating Account...' : 'Submit'}
             </button>

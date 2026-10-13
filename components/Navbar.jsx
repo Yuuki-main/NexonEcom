@@ -7,10 +7,12 @@ import {
   Check,
   ChevronDown,
   Heart,
+  Menu,
   Package,
   Search,
   ShoppingCart,
   User,
+  X,
 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -61,6 +63,7 @@ export default function Navbar() {
   const [pendingRegion, setPendingRegion] = useState(regions[2])
 
   const [accountOpen, setAccountOpen] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const regionDropdownRef = useRef(null)
   const accountDropdownRef = useRef(null)
@@ -134,10 +137,47 @@ export default function Navbar() {
     router.refresh()
   }
 
+  function submitSearch() {
+    if (search.trim()) {
+      setMobileMenuOpen(false)
+      router.push(`/products?q=${encodeURIComponent(search.trim())}`)
+    }
+  }
+
+  function isLinkActive(href) {
+    return href === '/'
+      ? pathname === '/'
+      : pathname === href || pathname.startsWith(`${href}/`)
+  }
+
+  const searchBox = (
+    <>
+      <input
+        type="search"
+        value={search}
+        onChange={(event) => setSearch(event.target.value)}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') submitSearch()
+        }}
+        placeholder="Search for products (Brand / Name / Description)"
+        className="w-full rounded-lg bg-white px-4 py-2.5 pr-11 text-[13px] text-[#333] focus:outline-none"
+      />
+
+      <button
+        type="button"
+        onClick={submitSearch}
+        className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#555] cursor-pointer"
+        aria-label="Search"
+      >
+        <Search size={16} />
+      </button>
+    </>
+  )
+
   return (
     <nav className="sticky top-0 z-50 bg-[#07141d]">
       {/* Top row */}
-      <div className="mx-auto flex h-[64px] max-w-[1240px] items-center gap-6 px-6">
+      <div className="mx-auto flex h-[64px] max-w-[1240px] items-center gap-3 px-4 sm:gap-6 sm:px-6">
         {/* Logo */}
         <Link href="/" className="shrink-0">
           <Image
@@ -145,7 +185,7 @@ export default function Navbar() {
             alt="Nexon"
             width={120}
             height={60}
-            className="h-16 w-auto"
+            className="h-12 w-auto sm:h-16"
             priority
           />
         </Link>
@@ -246,39 +286,15 @@ export default function Navbar() {
         </div>
 
         {/* Search */}
-        <div className="relative max-w-[560px] flex-1">
-          <input
-            type="search"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter' && search.trim()) {
-                router.push(`/products?q=${encodeURIComponent(search.trim())}`)
-              }
-            }}
-            placeholder="Search for products (Brand / Name / Description)"
-            className="w-full rounded-lg bg-white px-4 py-2.5 pr-11 text-[13px] text-[#333] focus:outline-none"
-          />
-
-          <button
-            type="button"
-            onClick={() => {
-              if (search.trim()) {
-                router.push(`/products?q=${encodeURIComponent(search.trim())}`)
-              }
-            }}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#555] cursor-pointer"
-            aria-label="Search"
-          >
-            <Search size={16} />
-          </button>
+        <div className="relative hidden max-w-[560px] flex-1 md:block">
+          {searchBox}
         </div>
 
         {/* Right actions */}
-        <div className="ml-auto flex items-center gap-6 text-white">
+        <div className="ml-auto flex items-center gap-4 text-white sm:gap-6">
           <Link
             href="/track-order"
-            className="flex cursor-pointer flex-col items-center gap-0.5 text-[11px] opacity-90 transition-opacity hover:opacity-100"
+            className="hidden cursor-pointer flex-col items-center gap-0.5 text-[11px] opacity-90 transition-opacity hover:opacity-100 md:flex"
           >
             <Package size={22} strokeWidth={1.5} />
             <span>Track Order</span>
@@ -287,10 +303,11 @@ export default function Navbar() {
           {/* Favourites */}
           <Link
             href="/favourites"
+            aria-label="Favourites"
             className="relative flex cursor-pointer flex-col items-center gap-0.5 text-[11px] opacity-90 transition-opacity hover:opacity-100"
           >
             <Heart size={22} strokeWidth={1.5} />
-            <span>Favourite</span>
+            <span className="hidden sm:inline">Favourite</span>
 
             {favCount > 0 && (
               <span className="absolute -right-1 -top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#ef4444] px-1 text-[10px] font-bold leading-none text-white">
@@ -303,10 +320,11 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => dispatch(toggleCart())}
+            aria-label="Cart"
             className="relative flex cursor-pointer flex-col items-center gap-0.5 text-[11px] opacity-90 transition-opacity hover:opacity-100"
           >
             <ShoppingCart size={22} strokeWidth={1.5} />
-            <span>Cart</span>
+            <span className="hidden sm:inline">Cart</span>
 
             {cartCount > 0 && (
               <span className="absolute -right-1 -top-0.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#ef4444] text-[10px] font-bold leading-none text-white">
@@ -361,7 +379,7 @@ export default function Navbar() {
                 aria-haspopup="menu"
                 aria-expanded={accountOpen}
                 aria-controls="navbar-account-menu"
-                className={`flex h-10.5 w-26 cursor-pointer items-center gap-2 justify-center rounded-full border transition-all duration-200 ${
+                className={`flex h-10.5 w-10.5 cursor-pointer items-center gap-2 justify-center rounded-full border transition-all duration-200 sm:w-26 ${
                   accountOpen
                     ? 'border-[#d1d5db] bg-[#e5e5e5] shadow-inner'
                     : 'border-transparent bg-[#eeeeee] hover:bg-[#e2e2e2]'
@@ -373,7 +391,7 @@ export default function Navbar() {
                   className="shrink-0 text-[#252525]"
                 />
                 <span
-                  className="min-w-0 truncate text-center text-[16px] font-bold text-[#252525]"
+                  className="hidden min-w-0 truncate text-center text-[16px] font-bold text-[#252525] sm:inline"
                   title={user?.fullName || accountLabel}
                 >
                   {accountLabel}
@@ -410,25 +428,79 @@ export default function Navbar() {
           ) : (
             <Link
               href="/login"
+              aria-label="Sign In"
               className="flex cursor-pointer flex-col items-center gap-0.5 text-[11px] opacity-90 transition-opacity hover:opacity-100"
             >
               <User size={22} strokeWidth={1.5} />
-              <span>Sign In</span>
+              <span className="hidden sm:inline">Sign In</span>
             </Link>
           )}
+
+          <button
+            type="button"
+            onClick={() => {
+              setAccountOpen(false)
+              setMobileMenuOpen((current) => !current)
+            }}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+            aria-controls="navbar-mobile-menu"
+            className="cursor-pointer opacity-90 transition-opacity hover:opacity-100 md:hidden"
+          >
+            {mobileMenuOpen ? (
+              <X size={24} strokeWidth={1.5} />
+            ) : (
+              <Menu size={24} strokeWidth={1.5} />
+            )}
+          </button>
         </div>
       </div>
 
+      {/* Mobile search */}
+      <div className="px-4 pb-3 md:hidden">
+        <div className="relative">{searchBox}</div>
+      </div>
+
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div
+          id="navbar-mobile-menu"
+          className="max-h-[calc(100dvh-120px)] overflow-y-auto border-t border-white/10 md:hidden"
+        >
+          {[...navLinks, { label: 'Track Order', href: '/track-order' }].map(
+            (link) => {
+              const isActive = isLinkActive(link.href)
+
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`flex items-center gap-2 border-b border-white/5 px-4 py-3.5 text-[15px] ${
+                    isActive ? 'text-[#00a7a7]' : 'text-white/85'
+                  }`}
+                >
+                  {link.label}
+
+                  {link.badge && (
+                    <span className="rounded bg-[#00a7a7] px-1.5 py-0.5 text-[10px] font-bold leading-none text-[#07141d]">
+                      {link.badge}
+                    </span>
+                  )}
+                </Link>
+              )
+            },
+          )}
+        </div>
+      )}
+
       {/* Divider */}
-      <div className="border-t border-white/10" />
+      <div className="hidden border-t border-white/10 md:block" />
 
       {/* Bottom navigation */}
-      <div className="mx-auto flex h-[44px] max-w-[1240px] items-center gap-6 px-6">
+      <div className="mx-auto hidden h-[44px] max-w-[1240px] items-center gap-4 px-6 md:flex lg:gap-6">
         {navLinks.map((link) => {
-          const isActive =
-            link.href === '/'
-              ? pathname === '/'
-              : pathname === link.href || pathname.startsWith(`${link.href}/`)
+          const isActive = isLinkActive(link.href)
 
           return (
             <Link

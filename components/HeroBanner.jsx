@@ -29,7 +29,7 @@ export default function HeroBanner() {
   }, [next])
 
   return (
-    <div className="relative w-full h-[520px] overflow-hidden">
+    <div className="relative w-full aspect-[1024/520] min-[1025px]:aspect-[1440/520] overflow-hidden">
       {slides.map((slide, i) => (
         <div
           key={i}

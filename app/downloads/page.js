@@ -54,7 +54,7 @@ export default function Downloads() {
   return (
     <div className="min-h-screen bg-white">
       <Navbar />
-      <main className="max-w-[1440px] mx-auto px-6 py-8">
+      <main className="max-w-[1440px] mx-auto px-4 sm:px-6 py-8">
         <div className="text-[13px] text-[#888] mb-6">
           <Link href="/" className="hover:text-[#2563eb]">
             Home
@@ -63,8 +63,8 @@ export default function Downloads() {
           <span className="text-[#111] font-medium">Downloads</span>
         </div>
 
-        <div className="flex gap-8">
-          <aside className="w-[200px] shrink-0">
+        <div className="flex flex-col gap-6 md:flex-row md:gap-8">
+          <aside className="w-full md:w-[200px] shrink-0">
             <div className="relative mb-6">
               <Search
                 size={15}
@@ -81,6 +81,7 @@ export default function Downloads() {
 
             <div className="mb-6">
               <div className="text-[13px] font-bold text-[#111] mb-2 px-3">Class</div>
+              <div className="flex flex-wrap gap-1 md:block">
               {CLASS_OPTIONS.map((cls) => (
                 <div
                   key={cls}
@@ -94,11 +95,13 @@ export default function Downloads() {
                   {cls}
                 </div>
               ))}
+              </div>
             </div>
 
             {activeClass !== 'All' && (
               <div>
                 <div className="text-[13px] font-bold text-[#111] mb-2 px-3">Brands</div>
+                <div className="flex flex-wrap gap-1 md:block">
                 <div
                   onClick={() => setActiveBrand('All Brands')}
                   className={`text-[13px] py-2 px-3 rounded cursor-pointer transition-colors ${
@@ -122,6 +125,7 @@ export default function Downloads() {
                     {brand}
                   </div>
                 ))}
+                </div>
               </div>
             )}
           </aside>
@@ -150,7 +154,7 @@ export default function Downloads() {
             <div className="border border-[#f0f0f0] rounded">
               <div className="flex justify-between items-center bg-[#f5f7fa] text-[#333] font-semibold text-[13px] px-4 py-3">
                 <div className="flex-1">Name</div>
-                <div className="w-[140px] text-right">Updated Date</div>
+                <div className="hidden sm:block w-[140px] text-right">Updated Date</div>
               </div>
 
               {filteredDocs.length === 0 ? (
@@ -174,8 +178,8 @@ export default function Downloads() {
                         )}
                         <span className="text-[14px] text-[#111] truncate">{doc.name}</span>
                       </div>
-                      <div className="flex items-center gap-4 shrink-0">
-                        <span className="text-[13px] text-[#888]">
+                      <div className="flex items-center gap-4 shrink-0 pl-3">
+                        <span className="hidden sm:inline text-[13px] text-[#888]">
                           {formatDate(doc.updatedAt)}
                         </span>
                         <a

@@ -217,7 +217,7 @@ function OrderCard({ card }) {
   return (
     <div className="bg-white border border-[#e8e8e8] rounded-md p-4 min-h-[100px] flex items-center gap-4 hover:border-[#cbd5e1] transition-colors">
       <div
-        className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${colors.bg}`}
+        className={`relative w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${colors.bg}`}
       >
         <IconComp size={20} className={colors.text} />
         {colors.dot && (

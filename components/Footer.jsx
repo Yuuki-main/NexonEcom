@@ -3,10 +3,12 @@ import Image from 'next/image'
 
 const productLinks = [
   { label: 'Solar Panels', href: '/products?category=solar-panels' },
+  { label: 'Water Filteration', href: '/products?category=water-filteration' },
   { label: 'Inverters', href: '/products?category=inverters' },
   { label: 'Battery Storage', href: '/products?category=battery-storage' },
   { label: 'Mounting Systems', href: '/products?category=mounting-systems' },
-  { label: 'Heat Pumps', href: '/products?category=heat-pumps' },
+  { label: 'Air Conditioning', href: '/products?category=aircon' },
+  { label: 'Heat Pumps', href: '/products?category=heatpump' },
   { label: 'All Products', href: '/products' },
   { label: 'Promotions', href: '/promotions' },
 ]
